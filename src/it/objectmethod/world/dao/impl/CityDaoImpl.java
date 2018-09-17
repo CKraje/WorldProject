@@ -46,7 +46,7 @@ public class CityDaoImpl implements CityDao {
 		PreparedStatement stmt = null;
 		List<City> list = new ArrayList<City>(0);
 		try {
-			String sql="SELECT Name,Population FROM city ci WHERE CountryCode=?"
+			String sql="SELECT Name,Population,ID FROM city ci WHERE CountryCode=?"
 					+ "ORDER BY Name ASC";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, countryCode);
@@ -55,8 +55,10 @@ public class CityDaoImpl implements CityDao {
 				City city = new City();
 				String name= rs.getString("ci.Name");
 				int population = rs.getInt("ci.Population");
+				int id = rs.getInt("ci.ID");
 				city.setName(name);
 				city.setPopulation(population);
+				city.setId(id);
 				list.add(city);
 			}
 			rs.close();
@@ -69,4 +71,20 @@ public class CityDaoImpl implements CityDao {
 		return list;
 	}
 
+	@Override
+	public void deleteCity(int id) {
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt = null;
+		try {
+			String sql="DELETE  FROM city  WHERE ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, id);
+			stmt.execute();
+			stmt.close();
+			conn.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }

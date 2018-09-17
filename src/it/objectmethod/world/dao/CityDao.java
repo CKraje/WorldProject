@@ -7,4 +7,5 @@ import it.objectmethod.world.domain.City;
 public interface CityDao {
 	public List<City> getAllCities();
 	public List<City>getCitiesByCountry(String country);
+	public void deleteCity(int id);
 }

@@ -9,8 +9,10 @@
 </head>
 <body>
 	<div align="center" style="margin-top: 50 px;">
-		<form  >
+		<form>
 			<c:forEach items="${lista_cities}" var="cities">
+				<a href="delete?countryCode=${countryCode}&idCity=${cities.id}">
+					elimina</a>
 				<c:out value="${cities.name}" />
 				<c:out value="${cities.population}" />
 				<br>
@@ -18,8 +20,8 @@
 			<br> <br>
 			<!-- <a href="countries?continent=Europe"><button type="submit" >Indietro</button></a> -->
 		</form>
-		<a href="countries?continent=${indietro}"><button type="submit" >Indietro</button></a>
-		
+		<a href="countries?continent=${indietro}"><button type="submit">Indietro</button></a>
+
 	</div>
 
 </body>
