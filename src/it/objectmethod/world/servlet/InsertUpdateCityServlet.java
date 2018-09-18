@@ -38,6 +38,6 @@ public class InsertUpdateCityServlet extends HttpServlet{
 			req.setAttribute("identificativo",check );
 		}
 		req.setAttribute("message", "Operazione avvenuta con succeso:");
-		req.getRequestDispatcher("created-city-list.jsp").forward(req, resp);
+		req.getRequestDispatcher("create-modify-list.jsp").forward(req, resp);
 	}
 }
