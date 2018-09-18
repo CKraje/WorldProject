@@ -8,6 +8,10 @@
 <title>I continenti</title>
 </head>
 <body>
+	<form action="search">
+		<input type="text" name="city_name" value="inserici nome">
+		<button type="submit">Search</button>
+	</form>
 	<div align="center" style="margin-top: 50 px;">
 		<c:forEach items="${listaContinenti}" var="continente">
 			<a href="countries?continent=${continente}">${continente}</a>

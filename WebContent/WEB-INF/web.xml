@@ -36,4 +36,36 @@
 		<servlet-name>deleteCities</servlet-name>
 		<url-pattern>/delete</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>searchcities</servlet-name>
+		<servlet-class>it.objectmethod.world.servlet.SearchCitiesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>searchcities</servlet-name>
+		<url-pattern>/search</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>createCities</servlet-name>
+		<servlet-class>it.objectmethod.world.servlet.CreateCityServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>createCities</servlet-name>
+		<url-pattern>/create</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>chooseActionOnCity</servlet-name>
+		<servlet-class>it.objectmethod.world.servlet.ModifyCreateCityServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>chooseActionOnCity</servlet-name>
+		<url-pattern>/choose</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>actionOnCity</servlet-name>
+		<servlet-class>it.objectmethod.world.servlet.InsertUpdateCityServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>actionOnCity</servlet-name>
+		<url-pattern>/insertmodify</url-pattern>
+	</servlet-mapping>
 </web-app>

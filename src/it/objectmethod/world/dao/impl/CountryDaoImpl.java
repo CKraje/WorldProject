@@ -99,4 +99,33 @@ public class CountryDaoImpl implements CountryDao {
 		return list;
 	}
 
+	@Override
+	public Country getCountryByCode(String code) {
+		Connection conn = ConnectionFactory.getConnection();
+		PreparedStatement stmt=null;
+		Country country=new Country();
+		try {
+			String sql="SELECT * FROM country co WHERE Code=?";
+			stmt=conn.prepareStatement(sql);
+			stmt.setString(1, code);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				String coDe= rs.getString("co.Code");
+				String continent=rs.getString("co.Continent");
+				String name= rs.getString("co.Name");
+				int population = rs.getInt("co.Population");
+				country.setCode(coDe);
+				country.setName(name);
+				country.setContinent(continent);
+				country.setPopulation(population);
+			}
+			rs.close();
+			stmt.close();
+			conn.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return country;
+	}
+
 }

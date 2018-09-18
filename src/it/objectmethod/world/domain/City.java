@@ -4,6 +4,21 @@ public class City {
 	private String name;
 	private int population;
 	private int id;
+	private String code;
+	private String district;
+	
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public int getId() {
 		return id;
 	}
