@@ -72,7 +72,7 @@ public class CityDaoImpl implements CityDao {
 	}
 
 	@Override
-	public void deleteCity(int id) {
+	public void deleteCity(int id) { //TODO ritornare int
 		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		try {
@@ -89,7 +89,7 @@ public class CityDaoImpl implements CityDao {
 	}
 
 	@Override
-	public List<City> getCitiesByName(String name) {
+	public List<City> getCitiesByName(String name) { //TODO riempire sempre tutti i campi del bean 
 		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		List<City> list = new ArrayList<City>(0);
@@ -100,10 +100,10 @@ public class CityDaoImpl implements CityDao {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()){
 				City city = new City();
-				String namE= rs.getString("ci.Name");
+				String nameFromRs= rs.getString("ci.Name"); //TODO non usare nomi di variabili che possano creare confusione (prima namE)
 				int population = rs.getInt("ci.Population");
 				int id = rs.getInt("ci.ID");
-				city.setName(namE);
+				city.setName(nameFromRs);
 				city.setPopulation(population);
 				city.setId(id);
 				list.add(city);
@@ -118,7 +118,7 @@ public class CityDaoImpl implements CityDao {
 	}
 
 	@Override
-	public void createCity(String name, String code, int pop,String district) {
+	public void createCity(String name, String code, int pop, String district) { //TODO passarsi direttamente un oggetto di tipo City public void createCity(City city) e return int
 		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		try {
@@ -170,7 +170,7 @@ public class CityDaoImpl implements CityDao {
 	}
 
 	@Override
-	public void updateCity(int id,String name,String district,int population,String code) {
+	public void updateCity(int id,String name,String district,int population,String code) { //TODO vedi commento create
 		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		try {
@@ -190,7 +190,7 @@ public class CityDaoImpl implements CityDao {
 	}
 
 	@Override
-	public int getIdFromLastCity() {
+	public int getIdFromLastCity() { //TODO rimuovere
 		Connection conn = ConnectionFactoryContext.getConnection();
 		Statement stmt = null;
 		int id=0;

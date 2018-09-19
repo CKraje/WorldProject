@@ -18,8 +18,11 @@ public class ContinentsServlet extends HttpServlet {
 	protected void doGet (HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException  {
 		CountryDao countryDao = new CountryDaoImpl();
 		HttpSession session = req.getSession();
+		if(!session.isNew()) {
+			session.invalidate();
+		}
 		List<String> list = countryDao.getAllContinents();
-		session.setAttribute("listaContinenti",list);
+		req.setAttribute("listaContinenti",list); //TODO mettere nella request, non nella session
 		req.getRequestDispatcher("Continents.jsp").forward(req, resp);
 	}
 }

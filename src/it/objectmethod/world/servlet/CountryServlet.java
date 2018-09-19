@@ -20,11 +20,12 @@ public class CountryServlet extends HttpServlet{
 
 	protected void doGet (HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException  {
 		HttpSession session = req.getSession();
+		session.removeAttribute("country_code");
 		String continent = req.getParameter("continent");
 		CountryDao countryDao = new CountryDaoImpl();
 		List<Country> list = countryDao.getCountriesByContinent(continent);
 		req.setAttribute("countries", list);
-		session.setAttribute("indietro", continent);
+		session.setAttribute("continent", continent); //TODO diamogli un nome migliore, tipo continent 
 		req.getRequestDispatcher("Countries.jsp").forward(req, resp);
 	}
 }

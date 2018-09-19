@@ -10,7 +10,7 @@
 <body>
 	<form action="insertmodify">
 		City Name:<br> <input type="text" name="city_name"
-			value="${name}"> <select name="theCountries">
+			value="${name}" <!-- value = '${city.name} -->> <select name="theCountries">
 			<c:forEach items="${ lista_Countriees}" var="countriees">
 				<option ${paese == countriees.name ? "selected":"" }
 					value="${countriees.code}">${countriees.name}</option>
@@ -19,9 +19,12 @@
 			name="district_name" value="${district}"> <br> <br>
 		Population's Number:<br> <input type="text" name="population"
 			value="${population}">
-		<button type="submit" name="city_iD" value="${cityId}">Crea/Modifica</button>
+	
+		<input type="hidden" name="city_id"	value="${cityId}">	
+	
+		<button type="submit">Crea/Modifica</button>
 	</form>
-	<a href="continents"><button type="submit">Continenti</button></a>
+	<a href="continents"><button>Continenti</button></a>
 	<br>
 	<br>
 	<p>${message}</p>

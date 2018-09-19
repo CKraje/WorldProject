@@ -19,10 +19,14 @@ public class CityServlet extends  HttpServlet{
 	protected void doGet (HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException  {
 		HttpSession session = req.getSession();
 		String countryCode= req.getParameter("country_code");
+		if(countryCode == null) {
+			countryCode = (String) session.getAttribute("country_code");
+		} else {
+			session.setAttribute("country_code", countryCode); 
+		}
 		CityDao cityDao = new CityDaoImpl();
 		List<City> list = cityDao.getCitiesByCountry(countryCode);		
 		req.setAttribute("lista_cities", list);
-		session.setAttribute("countryCode", countryCode);
 		req.getRequestDispatcher("city-list.jsp").forward(req, resp);
 	}
 }

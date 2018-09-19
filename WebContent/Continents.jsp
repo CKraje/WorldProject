@@ -9,7 +9,7 @@
 </head>
 <body>
 	<form action="search">
-		<input type="text" name="city_name" value="inserici nome">
+		<input type="text" name="city_name" placeholder="inserisci nome">
 		<button type="submit">Search</button>
 	</form>
 	<div align="center" style="margin-top: 50 px;">

@@ -17,20 +17,16 @@
 			<c:out value="${cities.name}" />
 			<c:out value="${cities.population}" />
 			<a href="choose?countryCode=${countryCode}&idCity=${cities.id}">
-				modifica</a>
+				<!-- NO rimuovere countrycode --> modifica
+			</a>
 			<br>
 		</c:forEach>
 		<br> <br>
-		<c:if test="${empty home_page }">
-			<a href="countries?continent=${indietro}"><button type="submit">Indietro</button></a>
-			<a href="continents"><button type="submit">Continenti</button></a>
+		<c:if test="${!empty continent }">
+			<a href="countries?continent=${continent}"><button type="submit">Indietro</button></a>
 		</c:if>
-		<c:if test="${! empty home_page }">
-			<a href="countries?continent=${indietro}"><button type="submit"
-					disabled="disabled">Indietro</button></a>
-			<a href="continents"><button type="submit">Continenti</button></a>
-		</c:if>
-		<br> <br>
+		<a href="continents"><button type="submit">Continenti</button></a> <br>
+		<br>
 	</div>
 </body>
 </html>

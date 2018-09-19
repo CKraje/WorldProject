@@ -11,7 +11,7 @@ import it.objectmethod.world.config.ConnectionFactoryContext;
 import it.objectmethod.world.dao.CountryDao;
 import it.objectmethod.world.domain.Country;
 
-public class CountryDaoImpl implements CountryDao {
+public class CountryDaoImpl implements CountryDao { //TODO riempire sempre tutti i campi di Country
 
 	@Override
 	public List<Country> getAllCountries() { 
