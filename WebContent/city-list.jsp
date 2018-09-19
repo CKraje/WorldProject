@@ -8,7 +8,6 @@
 <title>Le citta</title>
 </head>
 <body>
-
 	<a href="choose?idCity=${0}&countryCode=${countryCode}"><button
 			type="submit" value="">Crea città</button></a>
 	<div align="center" style="margin-top: 50 px;">

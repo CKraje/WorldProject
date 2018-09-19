@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.objectmethod.world.config.ConnectionFactory;
+import it.objectmethod.world.config.ConnectionFactoryContext;
 import it.objectmethod.world.dao.CountryDao;
 import it.objectmethod.world.domain.Country;
 
@@ -15,7 +15,7 @@ public class CountryDaoImpl implements CountryDao {
 
 	@Override
 	public List<Country> getAllCountries() { 
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		Statement stmt=null;
 		List<Country> list = new ArrayList<Country>(0);
 		try {
@@ -46,8 +46,8 @@ public class CountryDaoImpl implements CountryDao {
 
 	@Override
 	public List<String> getAllContinents() {
-		Connection conn = ConnectionFactory.getConnection();
-		Statement stmt;
+		Connection conn = ConnectionFactoryContext.getConnection();
+		Statement stmt=null;
 		List<String> list = new ArrayList<String>(0);
 		try {
 			stmt = conn.createStatement();
@@ -70,7 +70,7 @@ public class CountryDaoImpl implements CountryDao {
 	@Override
 	public List<Country> getCountriesByContinent(String continent) {
 
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt=null;
 		List<Country> list = new ArrayList<Country>(0);
 		try {
@@ -101,7 +101,7 @@ public class CountryDaoImpl implements CountryDao {
 
 	@Override
 	public Country getCountryByCode(String code) {
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt=null;
 		Country country=new Country();
 		try {

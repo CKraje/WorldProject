@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,12 +16,11 @@ import it.objectmethod.world.dao.impl.CityDaoImpl;
 import it.objectmethod.world.dao.impl.CountryDaoImpl;
 import it.objectmethod.world.domain.City;
 import it.objectmethod.world.domain.Country;
-
+@WebServlet("/choose")
 public class ModifyCreateCityServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-
 	protected void doGet (HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException  {
-		int id=Integer.parseInt(req.getParameter("idCity"));	// id dice se precompilare oppure no
+		int id=Integer.parseInt(req.getParameter("idCity"));	
 		String code= req.getParameter("countryCode");
 		CityDao cityDao=new CityDaoImpl();
 		CountryDao countryDao=new CountryDaoImpl();
@@ -40,6 +40,6 @@ public class ModifyCreateCityServlet extends HttpServlet{
 		}
 		req.setAttribute("paese", country.getName());
 		req.setAttribute("lista_Countriees", listCountries);
-		req.getRequestDispatcher("create-modify-list.jsp").forward(req, resp);
+		req.getRequestDispatcher("create-modify-city.jsp").forward(req, resp);
 	}
 }

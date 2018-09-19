@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import it.objectmethod.world.config.ConnectionFactory;
+import it.objectmethod.world.config.ConnectionFactoryContext;
 import it.objectmethod.world.dao.CityDao;
 import it.objectmethod.world.domain.City;
 
@@ -14,7 +14,7 @@ public class CityDaoImpl implements CityDao {
 
 	@Override
 	public List<City> getAllCities() {
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		Statement stmt;
 
 		List<City> list = new ArrayList<City>(0);
@@ -42,7 +42,7 @@ public class CityDaoImpl implements CityDao {
 
 	@Override
 	public List<City> getCitiesByCountry(String countryCode) {
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		List<City> list = new ArrayList<City>(0);
 		try {
@@ -73,7 +73,7 @@ public class CityDaoImpl implements CityDao {
 
 	@Override
 	public void deleteCity(int id) {
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		try {
 			String sql="DELETE  FROM city  WHERE ID=?";
@@ -90,7 +90,7 @@ public class CityDaoImpl implements CityDao {
 
 	@Override
 	public List<City> getCitiesByName(String name) {
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		List<City> list = new ArrayList<City>(0);
 		try {
@@ -119,7 +119,7 @@ public class CityDaoImpl implements CityDao {
 
 	@Override
 	public void createCity(String name, String code, int pop,String district) {
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		try {
 			String sql="INSERT INTO city (Name,CountryCode,Population,District)VALUES(?,?,?,?)";
@@ -140,7 +140,7 @@ public class CityDaoImpl implements CityDao {
 
 	@Override
 	public City getCityById(int id) {
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		City city = new City();
 		try {
@@ -171,7 +171,7 @@ public class CityDaoImpl implements CityDao {
 
 	@Override
 	public void updateCity(int id,String name,String district,int population,String code) {
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		try {
 			String sql="UPDATE city ci SET Name=?,CountryCode=?,District=?,Population=? WHERE ID=?";
@@ -191,7 +191,7 @@ public class CityDaoImpl implements CityDao {
 
 	@Override
 	public int getIdFromLastCity() {
-		Connection conn = ConnectionFactory.getConnection();
+		Connection conn = ConnectionFactoryContext.getConnection();
 		Statement stmt = null;
 		int id=0;
 		try {
