@@ -35,8 +35,10 @@ public class ModifyCreateCityServlet extends HttpServlet{
 			req.setAttribute("name", city.getName());
 			session.setAttribute("cityId", id);
 		}
+		else {
+			session.setAttribute("cityId", zero);
+		}
 		req.setAttribute("paese", country.getName());
-		session.setAttribute("cityId", zero);
 		req.setAttribute("lista_Countriees", listCountries);
 		req.getRequestDispatcher("create-modify-list.jsp").forward(req, resp);
 	}

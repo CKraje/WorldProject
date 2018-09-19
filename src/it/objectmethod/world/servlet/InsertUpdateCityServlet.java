@@ -16,14 +16,12 @@ public class InsertUpdateCityServlet extends HttpServlet{
 
 	protected void doGet (HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
 		String name= req.getParameter("city_name");
-		HttpSession session = req.getSession();
 		String district = req.getParameter("district_name");
 		int population= Integer.parseInt(req.getParameter("population"));
 		String countryCode= req.getParameter("theCountries");
-		int check= (int) session.getAttribute("cityId");		
+		int check = Integer.parseInt(req.getParameter("city_iD"));
 		CityDao cityDao=new CityDaoImpl();
-		if(check ==0) {										// id dice se modificare oppure creare
-			// creo citta
+		if(check ==0) {										
 			cityDao.createCity(name, countryCode, population, district);
 			int idLastCity= cityDao.getIdFromLastCity();
 			req.setAttribute("definitionCreate", " Hai creato una città con ID:");
@@ -31,7 +29,6 @@ public class InsertUpdateCityServlet extends HttpServlet{
 			req.setAttribute("identificativo", idLastCity);
 		}
 		else if(check>=0){
-			// faccio update città esistente
 			cityDao.updateCity(check, name, district, population, countryCode);
 			req.setAttribute("definitionUpdate", " Hai modificato una città con ID:");
 			req.setAttribute("definitionCreate", "");
