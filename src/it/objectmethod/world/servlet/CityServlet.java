@@ -24,6 +24,7 @@ public class CityServlet extends  HttpServlet{
 		} else {
 			session.setAttribute("country_code", countryCode); 
 		}
+
 		CityDao cityDao = new CityDaoImpl();
 		List<City> list = cityDao.getCitiesByCountry(countryCode);		
 		req.setAttribute("lista_cities", list);

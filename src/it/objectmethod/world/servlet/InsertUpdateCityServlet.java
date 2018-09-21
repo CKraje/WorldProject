@@ -11,7 +11,8 @@ import javax.servlet.http.HttpSession;
 
 import it.objectmethod.world.dao.CityDao;
 import it.objectmethod.world.dao.impl.CityDaoImpl;
-@WebServlet("/insertmodify")
+import it.objectmethod.world.domain.City;
+@WebServlet("/cities/insert_modify")
 public class InsertUpdateCityServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	protected void doGet (HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
@@ -19,24 +20,23 @@ public class InsertUpdateCityServlet extends HttpServlet{
 		String district = req.getParameter("district_name");
 		int population= Integer.parseInt(req.getParameter("population"));
 		String countryCode= req.getParameter("theCountries");
-		int idCity = Integer.parseInt(req.getParameter("city_iD"));
+		int idCity = Integer.parseInt(req.getParameter("city_id"));
 		CityDao cityDao=new CityDaoImpl();
-		if(idCity ==0) {										
-			cityDao.createCity(name, countryCode, population, district); //TODO passarsi un oggetto City
-			int idLastCity= cityDao.getIdFromLastCity(); //TODO rimuovere
-//			req.setAttribute("definitionCreate", " Hai creato una città con ID:");
-//			req.setAttribute("definitionUpdate", "");
-//			req.setAttribute("identificativo", idLastCity);
+		City city = new City();
+		city.setName(name);
+		city.setCode(countryCode);
+		city.setPopulation(population);
+		city.setDistrict(district);
+		city.setId(idCity);
+		if(city.getId() ==0	) {										
+			int rowsCreate=cityDao.createCity( city); 
 			req.setAttribute("message", "Creazione avvenuta con successo!");
 		}
-		else if(idCity>=0){
-			cityDao.updateCity(idCity, name, district, population, countryCode); //TODO passarsi un oggetto City
-//			req.setAttribute("definitionUpdate", " Hai modificato una città con ID:");
-//			req.setAttribute("definitionCreate", "");
-//			req.setAttribute("identificativo",idCity );
+		else if(city.getId()!=0){
+			city.setId(idCity);
+			int rowsUpdate =cityDao.updateCity( city); 
 			req.setAttribute("message", "Modifica avvenuta con successo!");
 		}
-//		req.setAttribute("message", "Operazione avvenuta con succeso:");
-		req.getRequestDispatcher("create-modify-city.jsp").forward(req, resp);
+		req.getRequestDispatcher("/create-modify-city.jsp").forward(req, resp);
 	}
 }

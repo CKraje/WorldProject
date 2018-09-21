@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import it.objectmethod.world.dao.CityDao;
 import it.objectmethod.world.dao.impl.CityDaoImpl;
 import it.objectmethod.world.domain.City;
-@WebServlet("/search")
+@WebServlet("/cities/search")
 public class SearchCitiesServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	protected void doGet (HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException  {
@@ -23,6 +23,6 @@ public class SearchCitiesServlet extends HttpServlet{
 		CityDao cityDao = new CityDaoImpl();
 		List<City> list = cityDao.getCitiesByName(name);
 		req.setAttribute("lista_cities", list);
-		req.getRequestDispatcher("city-list.jsp").forward(req, resp);
+		req.getRequestDispatcher("../city-list.jsp").forward(req, resp);
 	}
 }

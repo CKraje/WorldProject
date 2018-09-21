@@ -8,23 +8,25 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="insertmodify">
+	<form action="insert_modify">
+		<!-- http://localhost:8080/WorldProject/insert-modify -->
 		City Name:<br> <input type="text" name="city_name"
-			value="${name}" <!-- value = '${city.name} -->> <select name="theCountries">
+			value="${city.name}"> <select name="theCountries">
+			<!-- value = '${city.name} -->
 			<c:forEach items="${ lista_Countriees}" var="countriees">
-				<option ${paese == countriees.name ? "selected":"" }
+				<option ${paese == countriees.code ? "selected":"" }
 					value="${countriees.code}">${countriees.name}</option>
 			</c:forEach>
 		</select> <br> <br> District Name:<br> <input type="text"
-			name="district_name" value="${district}"> <br> <br>
+			name="district_name" value="${city.district}"> <br> <br>
 		Population's Number:<br> <input type="text" name="population"
-			value="${population}">
-	
-		<input type="hidden" name="city_id"	value="${cityId}">	
-	
+			value="${city.population}"> <input type="hidden"
+			name="city_id" value="${city.id}">
+		<!-- value="${cityId}"-->
+
 		<button type="submit">Crea/Modifica</button>
 	</form>
-	<a href="continents"><button>Continenti</button></a>
+	<a href="../continents"><button>Continenti</button></a>
 	<br>
 	<br>
 	<p>${message}</p>

@@ -25,7 +25,7 @@ public class CountryServlet extends HttpServlet{
 		CountryDao countryDao = new CountryDaoImpl();
 		List<Country> list = countryDao.getCountriesByContinent(continent);
 		req.setAttribute("countries", list);
-		session.setAttribute("continent", continent); //TODO diamogli un nome migliore, tipo continent 
+		session.setAttribute("continent", continent); 
 		req.getRequestDispatcher("Countries.jsp").forward(req, resp);
 	}
 }

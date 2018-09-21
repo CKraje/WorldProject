@@ -11,7 +11,7 @@ import it.objectmethod.world.config.ConnectionFactoryContext;
 import it.objectmethod.world.dao.CountryDao;
 import it.objectmethod.world.domain.Country;
 
-public class CountryDaoImpl implements CountryDao { //TODO riempire sempre tutti i campi di Country
+public class CountryDaoImpl implements CountryDao { 
 
 	@Override
 	public List<Country> getAllCountries() { 
@@ -110,11 +110,11 @@ public class CountryDaoImpl implements CountryDao { //TODO riempire sempre tutti
 			stmt.setString(1, code);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()){
-				String coDe= rs.getString("co.Code");
+				String codeFromRs= rs.getString("co.Code");
 				String continent=rs.getString("co.Continent");
 				String name= rs.getString("co.Name");
 				int population = rs.getInt("co.Population");
-				country.setCode(coDe);
+				country.setCode(codeFromRs);
 				country.setName(name);
 				country.setContinent(continent);
 				country.setPopulation(population);

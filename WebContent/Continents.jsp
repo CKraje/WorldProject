@@ -8,7 +8,7 @@
 <title>I continenti</title>
 </head>
 <body>
-	<form action="search">
+	<form action="cities/search">
 		<input type="text" name="city_name" placeholder="inserisci nome">
 		<button type="submit">Search</button>
 	</form>

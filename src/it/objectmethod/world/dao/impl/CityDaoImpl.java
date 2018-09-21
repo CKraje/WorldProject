@@ -72,40 +72,46 @@ public class CityDaoImpl implements CityDao {
 	}
 
 	@Override
-	public void deleteCity(int id) { //TODO ritornare int
+	public int deleteCity(int id) { 
 		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
+		int rows=0;
 		try {
 			String sql="DELETE  FROM city  WHERE ID=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, id);
-			stmt.execute();
+			rows=stmt.executeUpdate();
 			stmt.close();
 			conn.close();
+
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-
+		return rows;
 	}
 
 	@Override
-	public List<City> getCitiesByName(String name) { //TODO riempire sempre tutti i campi del bean 
+	public List<City> getCitiesByName(String name) { 
 		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
 		List<City> list = new ArrayList<City>(0);
 		try {
-			String sql="SELECT Name,Population,ID FROM city ci WHERE Name LIKE ?";
+			String sql="SELECT Name,Population,ID,CountryCode,District FROM city ci WHERE Name LIKE ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1,name + "%");
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()){
 				City city = new City();
-				String nameFromRs= rs.getString("ci.Name"); //TODO non usare nomi di variabili che possano creare confusione (prima namE)
+				String nameFromRs= rs.getString("ci.Name"); 
 				int population = rs.getInt("ci.Population");
 				int id = rs.getInt("ci.ID");
+				String code = rs.getString("ci.CountryCode");
+				String district = rs.getString("ci.District");
 				city.setName(nameFromRs);
 				city.setPopulation(population);
 				city.setId(id);
+				city.setDistrict(district);
+				city.setCode(code);
 				list.add(city);
 			}
 			rs.close();
@@ -118,24 +124,26 @@ public class CityDaoImpl implements CityDao {
 	}
 
 	@Override
-	public void createCity(String name, String code, int pop, String district) { //TODO passarsi direttamente un oggetto di tipo City public void createCity(City city) e return int
+	public int createCity(City city) {  
 		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
+		int rows=0;
 		try {
 			String sql="INSERT INTO city (Name,CountryCode,Population,District)VALUES(?,?,?,?)";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, name);
-			stmt.setString(2, code);
-			stmt.setInt(3, pop);
-			stmt.setString(4, district);
-			stmt.execute();
+			stmt.setString(1, city.getName());
+			stmt.setString(2, city.getCode());
+			stmt.setInt(3, city.getPopulation());
+			stmt.setString(4, city.getDistrict());
+			//stmt.execute();
+			rows=stmt.executeUpdate();
 			//City city=new City();
 			stmt.close();
 			conn.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-
+		return rows;
 	}
 
 	@Override
@@ -149,14 +157,14 @@ public class CityDaoImpl implements CityDao {
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()){
-				String namE= rs.getString("ci.Name");
+				String nameFromRs= rs.getString("ci.Name");
 				String code=rs.getString("ci.CountryCode");
 				String district = rs.getString("ci.District");
 				int population = rs.getInt("ci.Population");
-				int iD = rs.getInt("ci.ID");
-				city.setName(namE);
+				int idFromRs = rs.getInt("ci.ID");
+				city.setName(nameFromRs);
 				city.setPopulation(population);
-				city.setId(iD);
+				city.setId(idFromRs);
 				city.setCode(code);
 				city.setDistrict(district);
 			}
@@ -170,44 +178,25 @@ public class CityDaoImpl implements CityDao {
 	}
 
 	@Override
-	public void updateCity(int id,String name,String district,int population,String code) { //TODO vedi commento create
+	public int updateCity(City city) { 
 		Connection conn = ConnectionFactoryContext.getConnection();
 		PreparedStatement stmt = null;
+		int rows=0;
 		try {
 			String sql="UPDATE city ci SET Name=?,CountryCode=?,District=?,Population=? WHERE ID=?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, name);
-			stmt.setString(2, code);
-			stmt.setString(3, district);
-			stmt.setInt(4, population);
-			stmt.setInt(5, id);
-			stmt.executeUpdate();
+			stmt.setString(1, city.getName());
+			stmt.setString(2, city.getCode());
+			stmt.setString(3, city.getDistrict());
+			stmt.setInt(4, city.getPopulation());
+			stmt.setInt(5, city.getId());
+			rows=stmt.executeUpdate();
 			stmt.close();
 			conn.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public int getIdFromLastCity() { //TODO rimuovere
-		Connection conn = ConnectionFactoryContext.getConnection();
-		Statement stmt = null;
-		int id=0;
-		try {
-			stmt = conn.createStatement();
-			String sql="SELECT MAX(ID) AS Max FROM city";
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()){
-				id = rs.getInt("Max");
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return id;
+		return rows;
 	}
 }
 

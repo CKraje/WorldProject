@@ -22,7 +22,7 @@ public class ContinentsServlet extends HttpServlet {
 			session.invalidate();
 		}
 		List<String> list = countryDao.getAllContinents();
-		req.setAttribute("listaContinenti",list); //TODO mettere nella request, non nella session
+		req.setAttribute("listaContinenti",list); 
 		req.getRequestDispatcher("Continents.jsp").forward(req, resp);
 	}
 }
