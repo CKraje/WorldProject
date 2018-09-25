@@ -59,6 +59,7 @@ public class CityDaoImpl implements CityDao {
 				city.setName(name);
 				city.setPopulation(population);
 				city.setId(id);
+				city.setCode(countryCode);
 				list.add(city);
 			}
 			rs.close();
