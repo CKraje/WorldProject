@@ -26,7 +26,7 @@ import it.objectmethod.world.domain.Country;
 @Controller
 public class CityController {
 	@Autowired
-	CityDaoImpl cityDao;
+	CityDaoImpl cityDao; //
 	@Autowired
 	CountryDaoImpl countryDao;
 	@RequestMapping("/cities/list")
