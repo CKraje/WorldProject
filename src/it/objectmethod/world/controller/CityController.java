@@ -12,8 +12,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import it.objectmethod.world.dao.impl.CityDaoImpl;
-import it.objectmethod.world.dao.impl.CountryDaoImpl;
+import it.objectmethod.world.dao.CityDao;
+import it.objectmethod.world.dao.CountryDao;
 import it.objectmethod.world.domain.City;
 import it.objectmethod.world.domain.Country;
 
@@ -21,10 +21,10 @@ import it.objectmethod.world.domain.Country;
 public class CityController {
 	
 	@Autowired
-	CityDaoImpl cityDao; 
+	CityDao cityDao; 
 	
 	@Autowired
-	CountryDaoImpl countryDao;
+	CountryDao countryDao;
 	
 	@RequestMapping("/cities/list")
 	public String citiesList(@RequestParam("country_code") String countryCode, ModelMap map,

@@ -12,14 +12,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import it.objectmethod.world.dao.impl.CountryDaoImpl;
+import it.objectmethod.world.dao.CountryDao;
 import it.objectmethod.world.domain.Country;
 
 @Controller
 public class CountryController {
 	
 	@Autowired
-	CountryDaoImpl countryDao;
+	CountryDao countryDao;
 
 	@RequestMapping("/continents")
 	public String continentList(ModelMap map, HttpServletRequest req) {
