@@ -25,10 +25,13 @@ import it.objectmethod.world.domain.Country;
 
 @Controller
 public class CityController {
+	
 	@Autowired
 	CityDaoImpl cityDao; 
+	
 	@Autowired
 	CountryDaoImpl countryDao;
+	
 	@RequestMapping("/cities/list")
 	public String citiesList(@RequestParam("country_code") String countryCode, ModelMap map,
 			HttpServletRequest req) {
@@ -43,6 +46,7 @@ public class CityController {
 		map.addAttribute("countryCode", countryCode);
 		return "city-list";
 	}
+	
 	@RequestMapping("cities/delete") 
 	public String deleteCity(@RequestParam("idCity") int idCity,
 			@RequestParam("countryCode") String code, ModelMap map) {
@@ -54,6 +58,7 @@ public class CityController {
 		map.addAttribute("delete_message", resultMsg);
 		return "forward:/cities/list?country_code="+code;
 	}
+	
 	@RequestMapping("cities/create-modify") 
 	public String createOrModifyCity(@RequestParam("idCity") int idCity,
 			@RequestParam("countryCode") String code, ModelMap map,Model model,
@@ -75,6 +80,7 @@ public class CityController {
 		map.addAttribute("lista_Countriees", listCountries);
 		return "create-modify-city";
 	}
+	
 	@RequestMapping("/cities/insert_modify")
 	public String insertOrUpdateCity (@RequestParam("city_name") String name,
 			@RequestParam("district_name") String district,
@@ -98,6 +104,7 @@ public class CityController {
 		}
 		return "create-modify-city";
 	}
+	
 	@RequestMapping("/cities/search")
 	public String searchCity(@RequestParam("city_Name") String name, ModelMap map,
 			HttpServletRequest req) {

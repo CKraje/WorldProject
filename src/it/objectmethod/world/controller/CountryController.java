@@ -25,6 +25,7 @@ import it.objectmethod.world.domain.Country;
 @Controller
 @SessionAttributes("continent")
 public class CountryController {
+	
 	@Autowired
 	CountryDaoImpl countryDao;
 
@@ -38,6 +39,7 @@ public class CountryController {
 		}
 		return "Continents";
 	}
+	
 	@RequestMapping("/countries")
 	public String countriesListByContinent(@RequestParam("continent") String continent, 
 			ModelMap map,Model model, HttpServletRequest req) {
