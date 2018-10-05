@@ -13,6 +13,7 @@
 			<c:forEach items="${countries}" var="country">
 				<a href="cities/list?country_code=${country.code}">${country.name}</a>
 				<br>
+				<p>${country.region}</p>
 			</c:forEach>
 			<br> <br>
 			<button type="submit" value="submit">Indietro</button>

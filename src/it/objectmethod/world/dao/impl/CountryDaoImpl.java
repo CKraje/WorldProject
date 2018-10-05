@@ -2,49 +2,42 @@ package it.objectmethod.world.dao.impl;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import it.objectmethod.world.dao.CountryDao;
 import it.objectmethod.world.domain.Country;
 import it.objectmethod.world.domain.mapper.CountryMapper;
 
-@Component
-public class CountryDaoImpl implements CountryDao { 
-
-	JdbcTemplate jdbcTemplateCountryDao;
-
-	private DataSource dataSource;
+public class CountryDaoImpl extends NamedParameterJdbcDaoSupport implements CountryDao { 
 
 	private final String SQL_GET_ALL_CONTINENTS="SELECT DISTINCT Continent FROM country co";
-	private final String SQL_GET_COUNTRIES_BY_CONTINENT="SELECT * FROM country WHERE Continent=?";
+	private final String SQL_GET_COUNTRIES_BY_CONTINENT="SELECT * FROM country WHERE Continent = :cont";
 	private final String SQL_GET_ALL_COUNTRIES = "SELECT DISTINCT Name,Code,Continent"
 			+ ",Population FROM country co ";
 	private final String SQL_GET_COUNTRY_BY_CODE= "SELECT * FROM country co WHERE Code=?";
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-		this.jdbcTemplateCountryDao = new JdbcTemplate(dataSource);
-	}
-
 	public List<Country> getAllCountries() {
-		return jdbcTemplateCountryDao.query(SQL_GET_ALL_COUNTRIES, new CountryMapper());
+		return getJdbcTemplate().query(SQL_GET_ALL_COUNTRIES, new CountryMapper());
 	}
 
 	public List<String> getAllContinents() {
-		List<String> listContinents=jdbcTemplateCountryDao.queryForList(SQL_GET_ALL_CONTINENTS, String.class);
+		List<String> listContinents=getJdbcTemplate().queryForList(SQL_GET_ALL_CONTINENTS, String.class);
 		return listContinents;
 	}
 
 	public List<Country> getCountriesByContinent(String continent) {
-		return jdbcTemplateCountryDao.query(SQL_GET_COUNTRIES_BY_CONTINENT,
-				new Object[] { continent }, new CountryMapper());
+		List<Country> ret = null;
+		MapSqlParameterSource map = new MapSqlParameterSource();
+		map.addValue("cont", continent);
+		BeanPropertyRowMapper<Country> rm = new BeanPropertyRowMapper<>(Country.class);
+		ret = getNamedParameterJdbcTemplate().query(SQL_GET_COUNTRIES_BY_CONTINENT, map, rm);
+		return ret;
 	}
 
 	public Country getCountryByCode(String code) {
-		return jdbcTemplateCountryDao.queryForObject(SQL_GET_COUNTRY_BY_CODE,
+		return getJdbcTemplate().queryForObject(SQL_GET_COUNTRY_BY_CODE,
 				new Object[] { code }, new CountryMapper());
 	}
 

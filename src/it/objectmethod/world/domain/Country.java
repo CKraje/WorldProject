@@ -4,6 +4,7 @@ public class Country {
 	private String code;
 	private String name;
 	private String continent;
+	private String region;
 	private int population;
 	
 	public int getPopulation() {
@@ -30,4 +31,11 @@ public class Country {
 	public void setContinent(String continent) {
 		this.continent = continent;
 	}
+	public String getRegion() {
+		return region;
+	}
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
 }
