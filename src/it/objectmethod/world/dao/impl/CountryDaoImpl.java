@@ -19,7 +19,7 @@ import it.objectmethod.world.domain.Country;
 import it.objectmethod.world.domain.mapper.CountryMapper;
 
 @Component
-public class CountryDaoImpl implements CountryDao { //
+public class CountryDaoImpl implements CountryDao { 
 
 	JdbcTemplate jdbcTemplateCountryDao;
 	private DataSource dataSource;
