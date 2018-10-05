@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import it.objectmethod.world.domain.City;
-import it.objectmethod.world.domain.Country;
 
 public class CityMapper implements RowMapper<City>{
 
