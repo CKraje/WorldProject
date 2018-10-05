@@ -5,6 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -21,11 +25,13 @@ import it.objectmethod.world.domain.Country;
 
 @Controller
 public class CityController {
-
+	@Autowired
+	CityDaoImpl cityDao;
+	@Autowired
+	CountryDaoImpl countryDao;
 	@RequestMapping("/cities/list")
 	public String citiesList(@RequestParam("country_code") String countryCode, ModelMap map,
 			HttpServletRequest req) {
-		CityDao cityDao = new CityDaoImpl();
 		HttpSession session = req.getSession();
 		List<City> list = cityDao.getCitiesByCountry(countryCode);	
 		if(countryCode == null) {
@@ -37,9 +43,9 @@ public class CityController {
 		map.addAttribute("countryCode", countryCode);
 		return "city-list";
 	}
-	@RequestMapping("cities/delete") // prima era /cities/delete
-	public String deleteCity(@RequestParam("idCity") int idCity,@RequestParam("countryCode") String code, ModelMap map) {
-		CityDao cityDao = new CityDaoImpl();
+	@RequestMapping("cities/delete") 
+	public String deleteCity(@RequestParam("idCity") int idCity,
+			@RequestParam("countryCode") String code, ModelMap map) {
 		int deletedCitiesRows = cityDao.deleteCity(idCity);
 		String resultMsg = "Errore nell'eliminare la city.";
 		if(deletedCitiesRows > 0) {
@@ -50,10 +56,8 @@ public class CityController {
 	}
 	@RequestMapping("cities/create-modify") 
 	public String createOrModifyCity(@RequestParam("idCity") int idCity,
-			@RequestParam("countryCode") String code, ModelMap map,Model model,HttpServletRequest req) {
-
-		CityDao cityDao=new CityDaoImpl();
-		CountryDao countryDao=new CountryDaoImpl();
+			@RequestParam("countryCode") String code, ModelMap map,Model model,
+			HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		List<Country> listCountries = countryDao.getAllCountries();
 		Country country = countryDao.getCountryByCode(code);
@@ -72,10 +76,11 @@ public class CityController {
 		return "create-modify-city";
 	}
 	@RequestMapping("/cities/insert_modify")
-	public String insertOrUpdateCity (@RequestParam("city_name") String name,@RequestParam("district_name") String district,
-			@RequestParam("population") int population,@RequestParam("theCountries") String countryCode, @RequestParam("city_id") int idCity
-			,ModelMap map) {
-		CityDao cityDao=new CityDaoImpl();
+	public String insertOrUpdateCity (@RequestParam("city_name") String name,
+			@RequestParam("district_name") String district,
+			@RequestParam("population") int population,
+			@RequestParam("theCountries") String countryCode, @RequestParam("city_id") int idCity,
+			ModelMap map) {
 		City city = new City();
 		city.setName(name);
 		city.setCode(countryCode);
@@ -93,11 +98,9 @@ public class CityController {
 		}
 		return "create-modify-city";
 	}
-
 	@RequestMapping("/cities/search")
-	public String searchCity(@RequestParam("city_Name") String name, ModelMap map,HttpServletRequest req) {
-
-		CityDao cityDao = new CityDaoImpl();
+	public String searchCity(@RequestParam("city_Name") String name, ModelMap map,
+			HttpServletRequest req) {
 		List<City> list = cityDao.getCitiesByName(name);
 		map.addAttribute("lista_cities", list);
 		HttpSession session = req.getSession();

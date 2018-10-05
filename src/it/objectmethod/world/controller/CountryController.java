@@ -5,6 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +25,11 @@ import it.objectmethod.world.domain.Country;
 @Controller
 @SessionAttributes("continent")
 public class CountryController {
+	@Autowired
+	CountryDaoImpl countryDao;
 
 	@RequestMapping("/continents")
 	public String continentList(ModelMap map, HttpServletRequest req) {
-		CountryDao countryDao = new CountryDaoImpl();
 		List<String> list = countryDao.getAllContinents();
 		map.addAttribute("listaContinenti", list);
 		HttpSession session = req.getSession();
@@ -33,11 +38,9 @@ public class CountryController {
 		}
 		return "Continents";
 	}
-
 	@RequestMapping("/countries")
 	public String countriesListByContinent(@RequestParam("continent") String continent, 
 			ModelMap map,Model model, HttpServletRequest req) {
-		CountryDao countryDao = new CountryDaoImpl();
 		List<Country> list = countryDao.getCountriesByContinent(continent);
 		map.addAttribute("countries", list);
 		HttpSession session = req.getSession();

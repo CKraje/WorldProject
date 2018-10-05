@@ -7,125 +7,46 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
 import it.objectmethod.world.config.ConnectionFactoryContext;
 import it.objectmethod.world.dao.CountryDao;
 import it.objectmethod.world.domain.Country;
+import it.objectmethod.world.domain.mapper.CountryMapper;
 
+@Component
 public class CountryDaoImpl implements CountryDao { 
 
-	@Override
-	public List<Country> getAllCountries() { 
-		Connection conn = ConnectionFactoryContext.getConnection();
-		Statement stmt=null;
-		List<Country> list = new ArrayList<Country>(0);
-		try {
-			stmt = conn.createStatement();
-			String sql="SELECT DISTINCT Name,Code,Continent,Population FROM country co ";
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()){
-				Country country = new Country();
-				String code= rs.getString("co.Code");
-				String name= rs.getString("co.Name");
-				String continent= rs.getString("co.Continent");
-				int population = rs.getInt("co.Population");
-				country.setCode(code);
-				country.setName(name);
-				country.setContinent(continent);
-				country.setPopulation(population);
-				list.add(country);
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-		} 
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return list;
+	JdbcTemplate jdbcTemplateCountryDao;
+	private DataSource dataSource;
+	private final String SQL_GET_ALL_CONTINENTS="SELECT DISTINCT Continent FROM country co";
+	private final String SQL_GET_COUNTRIES_BY_CONTINENT="SELECT * FROM country WHERE Continent=?";
+	private final String SQL_GET_ALL_COUNTRIES = "SELECT DISTINCT Name,Code,Continent"
+			+ ",Population FROM country co ";
+	private final String SQL_GET_COUNTRY_BY_CODE= "SELECT * FROM country co WHERE Code=?";
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+		this.jdbcTemplateCountryDao = new JdbcTemplate(dataSource);
 	}
 
-	@Override
+	public List<Country> getAllCountries() {
+		return jdbcTemplateCountryDao.query(SQL_GET_ALL_COUNTRIES, new CountryMapper());
+	}
 	public List<String> getAllContinents() {
-		Connection conn = ConnectionFactoryContext.getConnection();
-		Statement stmt=null;
-		List<String> list = new ArrayList<String>(0);
-		try {
-			stmt = conn.createStatement();
-			String sql="SELECT DISTINCT Continent FROM country co";
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()){
-				String continent= rs.getString("co.Continent");
-				list.add(continent);
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-		} 
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return list;
+		List<String> listContinents=jdbcTemplateCountryDao.queryForList(SQL_GET_ALL_CONTINENTS, String.class);
+		return listContinents;
 	}
-
-	@Override
 	public List<Country> getCountriesByContinent(String continent) {
-
-		Connection conn = ConnectionFactoryContext.getConnection();
-		PreparedStatement stmt=null;
-		List<Country> list = new ArrayList<Country>(0);
-		try {
-			String sql="SELECT DISTINCT Name,Code,Population FROM country co WHERE Continent=?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, continent);
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()){
-				Country country = new Country();
-				String code= rs.getString("co.Code");
-				String name= rs.getString("co.Name");
-				int population = rs.getInt("co.Population");
-				country.setCode(code);
-				country.setName(name);
-				country.setContinent(continent);
-				country.setPopulation(population);
-				list.add(country);
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-		} 
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		return list;
+		return jdbcTemplateCountryDao.query(SQL_GET_COUNTRIES_BY_CONTINENT,
+				new Object[] { continent }, new CountryMapper());
 	}
-
-	@Override
 	public Country getCountryByCode(String code) {
-		Connection conn = ConnectionFactoryContext.getConnection();
-		PreparedStatement stmt=null;
-		Country country=new Country();
-		try {
-			String sql="SELECT * FROM country co WHERE Code=?";
-			stmt=conn.prepareStatement(sql);
-			stmt.setString(1, code);
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()){
-				String codeFromRs= rs.getString("co.Code");
-				String continent=rs.getString("co.Continent");
-				String name= rs.getString("co.Name");
-				int population = rs.getInt("co.Population");
-				country.setCode(codeFromRs);
-				country.setName(name);
-				country.setContinent(continent);
-				country.setPopulation(population);
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return country;
+		return jdbcTemplateCountryDao.queryForObject(SQL_GET_COUNTRY_BY_CODE,
+				new Object[] { code }, new CountryMapper());
 	}
-
 }

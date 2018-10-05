@@ -8,18 +8,19 @@
 <title>Le citta</title>
 </head>
 <body>
+	<!--<c:if test="${!empty countryCode }">-->
 	<a href="create-modify?idCity=${0}&countryCode=${countryCode}"><button
 			type="submit" value="">Crea città</button></a>
+	<!--</c:if>-->
 	<div align="center" style="margin-top: 50 px;">
 		<c:forEach items="${lista_cities}" var="cities">
-			<a
-				href="delete?countryCode=${cities.code}&idCity=${cities.id}">
+			<a href="delete?countryCode=${cities.code}&idCity=${cities.id}">
 				elimina</a>
 			<c:out value="${cities.name}" />
 			<c:out value="${cities.population}" />
 			<a
 				href="create-modify?countryCode=${cities.code}&idCity=${cities.id}">
-				modifica </a>
+				modifica </a> 
 			<br>
 		</c:forEach>
 		<br> <br>
@@ -28,8 +29,7 @@
 			<a href="../countries?continent=${continent}"><button
 					type="submit">Indietro</button></a>
 		</c:if>
-		<a href="../continents"><button>Continenti}</button></a>
-		<br> <br>
+		<a href="../continents"><button>Continenti}</button></a> <br> <br>
 	</div>
 </body>
 </html>
