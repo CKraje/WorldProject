@@ -17,7 +17,7 @@ import it.objectmethod.world.dao.CityDao;
 import it.objectmethod.world.domain.City;
 import it.objectmethod.world.domain.mapper.CityMapper;
 
-public class CityDaoImpl implements CityDao {
+public class CityDaoImpl implements CityDao {//
 	JdbcTemplate jdbcTemplateCitydao;
 	private DataSource dataSource;
 	private final String SQL_GET_CITIES_BY_COUNTRY="SELECT * FROM city ci WHERE CountryCode=?"
